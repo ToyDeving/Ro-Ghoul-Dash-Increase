@@ -1,28 +1,5 @@
-local Stuff = script.Parent
-local AmountPoints = Stuff.AmountAdd
-Stuff.ScrollingFrame.AddStrength.MouseButton1Down:Connect(function()
-	if tonumber(AmountPoints.Text) and tonumber(AmountPoints.Text) > 0 then
-		game.ReplicatedStorage.Remotes.PointAdd:FireServer("Strength",AmountPoints.Text)
-	end 
-end)
-Stuff.ScrollingFrame.AddSpeed.MouseButton1Down:Connect(function()
-	if tonumber(AmountPoints.Text) and tonumber(AmountPoints.Text) > 0 then
-		game.ReplicatedStorage.Remotes.PointAdd:FireServer("Speed",AmountPoints.Text)
-	end 
-end)
-
-Stuff.ScrollingFrame.AddHealth.MouseButton1Down:Connect(function()
-	if tonumber(AmountPoints.Text) and tonumber(AmountPoints.Text) > 0 then
-		game.ReplicatedStorage.Remotes.PointAdd:FireServer("Health",AmountPoints.Text)
-	end 
-end)
-
-
-
-
 local activated = false
 local gui = Instance.new("ScreenGui",game.Players.LocalPlayer.PlayerGui)
-script.Parent = gui
 local frame = Instance.new("Frame",gui)
 frame.Size = UDim2.new(0,150,0,150)
 frame.BackgroundTransparency = 1
@@ -77,7 +54,7 @@ boxplayer.Text = ""
 boxplayer.TextScaled = true
 boxplayer.TextColor3 = Color3.fromRGB(255, 255, 255)
 
-gui:Clone().Parent = game.StarterGui
+
 
 function onClicked()
 	if activated == false then
@@ -141,14 +118,19 @@ game:GetService("UserInputService").InputBegan:Connect(function(inputObject,gpe)
 		end
 	end
 end)
-while game:GetService("RunService").RenderStepped:Wait() do
-	if focusing == false and game.Players:FindFirstChild(boxplayer.Text) and game.Players:FindFirstChild(boxplayer.Text).Character:FindFirstChild("HumanoidRootPart") then
-		if game.Players.LocalPlayer.Character.Humanoid.Health <= 0 then
-			focusing = false
-			break
-		end
+task.spawn(function()
+	while game:GetService("RunService").RenderStepped:Wait() do
+		if focusing == false and game.Players:FindFirstChild(boxplayer.Text) and game.Players:FindFirstChild(boxplayer.Text).Character:FindFirstChild("HumanoidRootPart") then
+			if game.Players.LocalPlayer.Character.Humanoid.Health <= 0 then
+				focusing = false
+				break
+			end
 
-		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position,Vector3.new(game.Players:FindFirstChild(boxplayer.Text).Character.HumanoidRootPart.Position.X,game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Y,game.Players:FindFirstChild(boxplayer.Text).Character.HumanoidRootPart.Position.Z))
-		game.Workspace.CurrentCamera.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame*CFrame.new(Vector3.new(7.5,2.5,10))
-	end	
-end
+			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position,Vector3.new(game.Players:FindFirstChild(boxplayer.Text).Character.HumanoidRootPart.Position.X,game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Y,game.Players:FindFirstChild(boxplayer.Text).Character.HumanoidRootPart.Position.Z))
+			game.Workspace.CurrentCamera.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame*CFrame.new(Vector3.new(7.5,2.5,10))
+		end	
+	end
+end)
+script.Parent = gui
+local clone = gui:Clone()
+clone.Parent = game.StarterGui

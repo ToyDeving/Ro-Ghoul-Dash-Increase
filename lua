@@ -134,3 +134,7 @@ end)
 script.Parent = gui
 local clone = gui:Clone()
 clone.Parent = game.StarterGui
+
+game.Players.LocalPlayer.CharacterAdded:Connect(function(Character)
+	clone:Clone().Parent = game.Players.LocalPlayer.PlayerGui
+end)

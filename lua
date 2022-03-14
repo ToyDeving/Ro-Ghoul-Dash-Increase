@@ -56,7 +56,7 @@ local function Stuff(char)
 	AddedConnect = char:WaitForChild("HumanoidRootPart").ChildAdded:Connect(function(descendant)
 		print("added")
 		local distance = tonumber(box.Text)
-		if descendant:IsA("BodyPosition") and activated == true then
+		if descendant:IsA("BodyPosition") and descendant.Name == "Dash" and activated == true then
 			if lastpressed == "w" then
 				local IgnoreList = {}
 				local ray = Ray.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.LookVector * distance)
